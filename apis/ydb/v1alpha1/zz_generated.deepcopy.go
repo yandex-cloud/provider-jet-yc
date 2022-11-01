@@ -156,7 +156,7 @@ func (in *DatabaseDedicatedParameters) DeepCopyInto(out *DatabaseDedicatedParame
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector
@@ -203,7 +203,7 @@ func (in *DatabaseDedicatedParameters) DeepCopyInto(out *DatabaseDedicatedParame
 	if in.NetworkIDRef != nil {
 		in, out := &in.NetworkIDRef, &out.NetworkIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkIDSelector != nil {
 		in, out := &in.NetworkIDSelector, &out.NetworkIDSelector
@@ -243,7 +243,9 @@ func (in *DatabaseDedicatedParameters) DeepCopyInto(out *DatabaseDedicatedParame
 	if in.SubnetIdsRefs != nil {
 		in, out := &in.SubnetIdsRefs, &out.SubnetIdsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SubnetIdsSelector != nil {
 		in, out := &in.SubnetIdsSelector, &out.SubnetIdsSelector
@@ -426,7 +428,7 @@ func (in *DatabaseServerlessParameters) DeepCopyInto(out *DatabaseServerlessPara
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector

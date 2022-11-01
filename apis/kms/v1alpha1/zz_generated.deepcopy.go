@@ -141,7 +141,7 @@ func (in *SymmetricKeyParameters) DeepCopyInto(out *SymmetricKeyParameters) {
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector

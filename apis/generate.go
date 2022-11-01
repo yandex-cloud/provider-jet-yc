@@ -29,6 +29,9 @@ limitations under the License.
 //go:generate bash -c "find ../internal/controller -iname 'zz_*' -delete"
 //go:generate bash -c "find ../internal/controller -type d -empty -delete"
 
+// NOTE(muvaf): Some of Terraform AWS provider files have "!generate" build tag
+// that prevent us from using it for generator program.
+
 // Run Terrajet generator
 //go:generate go run -tags generate ../cmd/generator/main.go ..
 
@@ -72,6 +75,9 @@ limitations under the License.
 //go:generate ../terraform-docs-parser.py ../terraform-provider-yandex/website/docs/r/vpc_address.html.markdown ./vpc/v1alpha1/zz_address_types.go
 //go:generate ../terraform-docs-parser.py ../terraform-provider-yandex/website/docs/r/mdb_elasticsearch_cluster.html.markdown ./mdb/v1alpha1/zz_elasticsearchcluster_types.go
 
+// Scrape metadata from Terraform registry
+//go:generate go run github.com/upbound/upjet/cmd/scraper -n hashicorp/terraform-provider-aws -r ../.work/terraform-provider-yandex/website/docs/r -o ../config/provider-metadata.yaml
+
 // Generate deepcopy methodsets and CRD manifests
 //go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
 
@@ -84,6 +90,7 @@ limitations under the License.
 // Generate html docs
 //go:generate ../scripts/gen-doc-apis.sh
 //go:generate ../scripts/gen-docs-generate.sh
+
 package apis
 
 import (
@@ -92,4 +99,6 @@ import (
 	_ "github.com/crossplane/crossplane-tools/cmd/angryjet" //nolint:typecheck
 
 	_ "github.com/benagricola/crossplane-composition-generator" //nolint:typecheck
+
+	_ "github.com/upbound/upjet/cmd/scraper"
 )

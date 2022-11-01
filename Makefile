@@ -10,6 +10,8 @@ export TERRAFORM_PROVIDER_VERSION := 0.76.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-yandex
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://terraform-mirror.yandexcloud.net/
 export TERRAFORM_PROVIDER_HOST := hashicorp-releases.yandexcloud.net
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/yandex-cloud/terraform-provider-yandex
+export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 PLATFORMS ?= linux_amd64 linux_arm64
 
@@ -53,6 +55,23 @@ GO111MODULE = on
 DOCKER_REGISTRY := cr.yandex/crp0kch415f0lke009ft/crossplane
 IMAGES = provider-jet-yc provider-jet-yc-controller
 -include build/makelib/image.mk
+
+# ====================================================================================
+# Setup Upbound Docs
+
+updoc-upload:
+	@$(INFO) uploading docs for v$(VERSION_MAJOR).$(VERSION_MINOR)
+	@go run github.com/upbound/official-providers/updoc/cmd upload \
+        --docs-dir=$(ROOT_DIR)/docs \
+        --name=$(PROJECT_NAME) \
+        --version=v$(VERSION_MAJOR).$(VERSION_MINOR) \
+        --bucket-name=$(BUCKET_NAME) \
+        --cdn-domain=$(CDN_DOMAIN) || $(FAIL)
+	@$(OK) uploaded docs for v$(VERSION_MAJOR).$(VERSION_MINOR)
+
+ifneq ($(filter release-%,$(BRANCH_NAME)),)
+publish.artifacts: updoc-upload
+endif
 
 # ====================================================================================
 # Targets
@@ -122,9 +141,17 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA)
 
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA)
+pull-docs:
+	@if [ ! -d "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" ]; then \
+		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"; \
+	fi
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
+	@./scripts/add_subcategory_html.sh
+
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+
+.PHONY: pull-docs
 
 # ====================================================================================
 # Special Targets

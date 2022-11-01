@@ -132,7 +132,7 @@ func (in *ClickhouseSourceParameters) DeepCopyInto(out *ClickhouseSourceParamete
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -256,7 +256,7 @@ func (in *ClickhouseTargetParameters) DeepCopyInto(out *ClickhouseTargetParamete
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -601,7 +601,7 @@ func (in *ConnectionOnPremiseParameters) DeepCopyInto(out *ConnectionOnPremisePa
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -1171,7 +1171,7 @@ func (in *EndpointParameters) DeepCopyInto(out *EndpointParameters) {
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector
@@ -1322,7 +1322,7 @@ func (in *MongoSourceConnectionConnectionOptionsParameters) DeepCopyInto(out *Mo
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -1460,7 +1460,7 @@ func (in *MongoSourceParameters) DeepCopyInto(out *MongoSourceParameters) {
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -1568,7 +1568,7 @@ func (in *MongoTargetConnectionConnectionOptionsParameters) DeepCopyInto(out *Mo
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -1732,7 +1732,7 @@ func (in *MongoTargetParameters) DeepCopyInto(out *MongoTargetParameters) {
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -1777,7 +1777,7 @@ func (in *MySQLSourceConnectionParameters) DeepCopyInto(out *MySQLSourceConnecti
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -1836,7 +1836,7 @@ func (in *MySQLSourceParameters) DeepCopyInto(out *MySQLSourceParameters) {
 	if in.DatabaseRef != nil {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DatabaseSelector != nil {
 		in, out := &in.DatabaseSelector, &out.DatabaseSelector
@@ -1893,7 +1893,9 @@ func (in *MySQLSourceParameters) DeepCopyInto(out *MySQLSourceParameters) {
 	if in.SecurityGroupsRefs != nil {
 		in, out := &in.SecurityGroupsRefs, &out.SecurityGroupsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SecurityGroupsSelector != nil {
 		in, out := &in.SecurityGroupsSelector, &out.SecurityGroupsSelector
@@ -1918,7 +1920,7 @@ func (in *MySQLSourceParameters) DeepCopyInto(out *MySQLSourceParameters) {
 	if in.UserRef != nil {
 		in, out := &in.UserRef, &out.UserRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.UserSelector != nil {
 		in, out := &in.UserSelector, &out.UserSelector
@@ -2029,7 +2031,7 @@ func (in *MySQLTargetConnectionOnPremiseParameters) DeepCopyInto(out *MySQLTarge
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -2173,7 +2175,7 @@ func (in *MySQLTargetConnectionParameters) DeepCopyInto(out *MySQLTargetConnecti
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -2232,7 +2234,7 @@ func (in *MySQLTargetParameters) DeepCopyInto(out *MySQLTargetParameters) {
 	if in.DatabaseRef != nil {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DatabaseSelector != nil {
 		in, out := &in.DatabaseSelector, &out.DatabaseSelector
@@ -2265,7 +2267,9 @@ func (in *MySQLTargetParameters) DeepCopyInto(out *MySQLTargetParameters) {
 	if in.SecurityGroupsRefs != nil {
 		in, out := &in.SecurityGroupsRefs, &out.SecurityGroupsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SecurityGroupsSelector != nil {
 		in, out := &in.SecurityGroupsSelector, &out.SecurityGroupsSelector
@@ -2290,7 +2294,7 @@ func (in *MySQLTargetParameters) DeepCopyInto(out *MySQLTargetParameters) {
 	if in.UserRef != nil {
 		in, out := &in.UserRef, &out.UserRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.UserSelector != nil {
 		in, out := &in.UserSelector, &out.UserSelector
@@ -2688,7 +2692,7 @@ func (in *PostgresSourceConnectionOnPremiseParameters) DeepCopyInto(out *Postgre
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -2832,7 +2836,7 @@ func (in *PostgresSourceConnectionParameters) DeepCopyInto(out *PostgresSourceCo
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -3006,7 +3010,7 @@ func (in *PostgresSourceParameters) DeepCopyInto(out *PostgresSourceParameters) 
 	if in.DatabaseRef != nil {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DatabaseSelector != nil {
 		in, out := &in.DatabaseSelector, &out.DatabaseSelector
@@ -3063,7 +3067,9 @@ func (in *PostgresSourceParameters) DeepCopyInto(out *PostgresSourceParameters) 
 	if in.SecurityGroupsRefs != nil {
 		in, out := &in.SecurityGroupsRefs, &out.SecurityGroupsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SecurityGroupsSelector != nil {
 		in, out := &in.SecurityGroupsSelector, &out.SecurityGroupsSelector
@@ -3088,7 +3094,7 @@ func (in *PostgresSourceParameters) DeepCopyInto(out *PostgresSourceParameters) 
 	if in.UserRef != nil {
 		in, out := &in.UserRef, &out.UserRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.UserSelector != nil {
 		in, out := &in.UserSelector, &out.UserSelector
@@ -3199,7 +3205,7 @@ func (in *PostgresTargetConnectionOnPremiseParameters) DeepCopyInto(out *Postgre
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
@@ -3343,7 +3349,7 @@ func (in *PostgresTargetConnectionParameters) DeepCopyInto(out *PostgresTargetCo
 	if in.MdbClusterIDRef != nil {
 		in, out := &in.MdbClusterIDRef, &out.MdbClusterIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MdbClusterIDSelector != nil {
 		in, out := &in.MdbClusterIDSelector, &out.MdbClusterIDSelector
@@ -3402,7 +3408,7 @@ func (in *PostgresTargetParameters) DeepCopyInto(out *PostgresTargetParameters) 
 	if in.DatabaseRef != nil {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DatabaseSelector != nil {
 		in, out := &in.DatabaseSelector, &out.DatabaseSelector
@@ -3430,7 +3436,9 @@ func (in *PostgresTargetParameters) DeepCopyInto(out *PostgresTargetParameters) 
 	if in.SecurityGroupsRefs != nil {
 		in, out := &in.SecurityGroupsRefs, &out.SecurityGroupsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SecurityGroupsSelector != nil {
 		in, out := &in.SecurityGroupsSelector, &out.SecurityGroupsSelector
@@ -3445,7 +3453,7 @@ func (in *PostgresTargetParameters) DeepCopyInto(out *PostgresTargetParameters) 
 	if in.UserRef != nil {
 		in, out := &in.UserRef, &out.UserRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.UserSelector != nil {
 		in, out := &in.UserSelector, &out.UserSelector
@@ -3910,7 +3918,7 @@ func (in *TransferParameters) DeepCopyInto(out *TransferParameters) {
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector
@@ -3945,7 +3953,7 @@ func (in *TransferParameters) DeepCopyInto(out *TransferParameters) {
 	if in.SourceIDRef != nil {
 		in, out := &in.SourceIDRef, &out.SourceIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceIDSelector != nil {
 		in, out := &in.SourceIDSelector, &out.SourceIDSelector
@@ -3960,7 +3968,7 @@ func (in *TransferParameters) DeepCopyInto(out *TransferParameters) {
 	if in.TargetIDRef != nil {
 		in, out := &in.TargetIDRef, &out.TargetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetIDSelector != nil {
 		in, out := &in.TargetIDSelector, &out.TargetIDSelector

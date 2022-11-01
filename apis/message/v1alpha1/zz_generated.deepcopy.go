@@ -121,7 +121,7 @@ func (in *QueueParameters) DeepCopyInto(out *QueueParameters) {
 	if in.AccessKeyRef != nil {
 		in, out := &in.AccessKeyRef, &out.AccessKeyRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.AccessKeySelector != nil {
 		in, out := &in.AccessKeySelector, &out.AccessKeySelector

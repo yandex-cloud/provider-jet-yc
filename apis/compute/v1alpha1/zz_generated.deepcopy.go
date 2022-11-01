@@ -440,7 +440,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector
@@ -547,7 +547,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	if in.ServiceAccountIDRef != nil {
 		in, out := &in.ServiceAccountIDRef, &out.ServiceAccountIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountIDSelector != nil {
 		in, out := &in.ServiceAccountIDSelector, &out.ServiceAccountIDSelector
@@ -793,7 +793,9 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	if in.SecurityGroupIdsRefs != nil {
 		in, out := &in.SecurityGroupIdsRefs, &out.SecurityGroupIdsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SecurityGroupIdsSelector != nil {
 		in, out := &in.SecurityGroupIdsSelector, &out.SecurityGroupIdsSelector
@@ -808,7 +810,7 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	if in.SubnetIDRef != nil {
 		in, out := &in.SubnetIDRef, &out.SubnetIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetIDSelector != nil {
 		in, out := &in.SubnetIDSelector, &out.SubnetIDSelector
