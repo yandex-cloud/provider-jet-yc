@@ -142,7 +142,7 @@ func (in *RecordsetParameters) DeepCopyInto(out *RecordsetParameters) {
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
@@ -295,7 +295,7 @@ func (in *ZoneParameters) DeepCopyInto(out *ZoneParameters) {
 	if in.FolderIDRef != nil {
 		in, out := &in.FolderIDRef, &out.FolderIDRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FolderIDSelector != nil {
 		in, out := &in.FolderIDSelector, &out.FolderIDSelector
@@ -336,7 +336,9 @@ func (in *ZoneParameters) DeepCopyInto(out *ZoneParameters) {
 	if in.PrivateNetworksRefs != nil {
 		in, out := &in.PrivateNetworksRefs, &out.PrivateNetworksRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PrivateNetworksSelector != nil {
 		in, out := &in.PrivateNetworksSelector, &out.PrivateNetworksSelector

@@ -35,7 +35,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: SecurityGroup is the Schema for the SecurityGroups API
+        description: SecurityGroup is the Schema for the SecurityGroups API. Yandex
+          VPC Security Group.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,33 +65,50 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: Description of the security group.
                     type: string
                   egress:
+                    description: A list of egress rules. The structure is documented
+                      below.
                     items:
                       properties:
                         description:
+                          description: Description of the rule.
                           type: string
                         fromPort:
+                          description: Minimum port number.
                           type: number
                         labels:
                           additionalProperties:
                             type: string
+                          description: Labels to assign to this security group.
                           type: object
                         port:
+                          description: Port number (if applied to a single port).
                           type: number
                         predefinedTarget:
+                          description: Special-purpose targets. self_security_group
+                            refers to this particular security group. loadbalancer_healthchecks
+                            represents loadbalancer health check nodes.
                           type: string
                         protocol:
+                          description: One of ANY, TCP, UDP, ICMP, IPV6_ICMP.
                           type: string
                         securityGroupId:
+                          description: Target security group ID for this rule.
                           type: string
                         toPort:
+                          description: Maximum port number.
                           type: number
                         v4CidrBlocks:
+                          description: The blocks of IPv4 addresses for this rule.
                           items:
                             type: string
                           type: array
                         v6CidrBlocks:
+                          description: The blocks of IPv6 addresses for this rule.
+                            v6_cidr_blocks argument is currently not supported. It
+                            will be available in the future.
                           items:
                             type: string
                           type: array
@@ -99,18 +117,46 @@ spec:
                       type: object
                     type: array
                   folderId:
+                    description: ID of the folder this security group belongs to.
                     type: string
                   folderIdRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Folder in resourcemanager to populate
+                      folderId.
                     properties:
                       name:
                         description: Name of the referenced object.
                         type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     required:
                     - name
                     type: object
                   folderIdSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Folder in resourcemanager to populate
+                      folderId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -122,33 +168,73 @@ spec:
                         description: MatchLabels ensures an object with matching labels
                           is selected.
                         type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     type: object
                   ingress:
+                    description: A list of ingress rules.
                     items:
                       properties:
                         description:
+                          description: Description of the rule.
                           type: string
                         fromPort:
+                          description: Minimum port number.
                           type: number
                         labels:
                           additionalProperties:
                             type: string
+                          description: Labels to assign to this rule.
                           type: object
                         port:
+                          description: Port number (if applied to a single port).
                           type: number
                         predefinedTarget:
+                          description: Special-purpose targets. self_security_group
+                            refers to this particular security group. loadbalancer_healthchecks
+                            represents loadbalancer health check nodes.
                           type: string
                         protocol:
+                          description: One of ANY, TCP, UDP, ICMP, IPV6_ICMP.
                           type: string
                         securityGroupId:
+                          description: Target security group ID for this rule.
                           type: string
                         toPort:
+                          description: Maximum port number.
                           type: number
                         v4CidrBlocks:
+                          description: The blocks of IPv4 addresses for this rule.
                           items:
                             type: string
                           type: array
                         v6CidrBlocks:
+                          description: The blocks of IPv6 addresses for this rule.
+                            v6_cidr_blocks argument is currently not supported. It
+                            will be available in the future.
                           items:
                             type: string
                           type: array
@@ -159,22 +245,50 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
+                    description: Labels to assign to this security group.
                     type: object
                   name:
+                    description: Name of the security group.
                     type: string
                   networkId:
+                    description: ID of the network this security group belongs to.
                     type: string
                   networkIdRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Network to populate networkId.
                     properties:
                       name:
                         description: Name of the referenced object.
                         type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     required:
                     - name
                     type: object
                   networkIdSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Network to populate networkId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -185,6 +299,31 @@ spec:
                           type: string
                         description: MatchLabels ensures an object with matching labels
                           is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
                         type: object
                     type: object
                 type: object
@@ -198,6 +337,31 @@ spec:
                   name:
                     description: Name of the referenced object.
                     type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
                 required:
                 - name
                 type: object
@@ -209,6 +373,31 @@ spec:
                   name:
                     description: Name of the referenced object.
                     type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
                 required:
                 - name
                 type: object
@@ -228,6 +417,31 @@ spec:
                       name:
                         description: Name of the referenced object.
                         type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
                     required:
                     - name
                     type: object
@@ -293,6 +507,8 @@ spec:
                     description: Creation timestamp of this security group.
                     type: string
                   egress:
+                    description: A list of egress rules. The structure is documented
+                      below.
                     items:
                       properties:
                         id:
@@ -304,6 +520,7 @@ spec:
                     description: Id of the rule.
                     type: string
                   ingress:
+                    description: A list of ingress rules.
                     items:
                       properties:
                         id:
